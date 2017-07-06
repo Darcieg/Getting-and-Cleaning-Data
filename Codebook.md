@@ -32,7 +32,7 @@ The numerical activity IDs in the newly merged table were renamed according to t
 3. walkingdownstairs
 4. sitting
 5. standing
-6. lying down (switched from the original "laying" for grammatical correctness)
+6. lyingdown (switched from the original "laying" for grammatical correctness)
 
 Next, the table was pared down to contain--in addition to the subject ID and activity ID--only columns that contained the strings "mean" or "stddev." This was my interpretation of the instruction to extract only the measurements on the mean and standard deviation for each measurement.
 
@@ -59,7 +59,7 @@ Next, the variable columns were renamed to be more descriptive. The tables below
 |columnPosition|columnName|type|description|
 |--- |--- |--- |--- |
 |1|subjectId|integer|Numeric identifier (a unique sequential number) that indicates the participant or subject of the experiment. The original research study included 30 participants, so this variable has a range of numeric values from 1-30. No further information beyond an ID number was provided by the original research team.|
-|2|activityId|character|Character string describing one of six different activities that were performed by participants in the experiment, consisting of: Lying down (name changed from "laying" for grammatical correctness); Sitting; Standing; Walking; Walking downstairs; Walking upstairs|
+|2|activityId|character|Character string describing one of six different activities that were performed by participants in the experiment, consisting of: lyingdown (name changed from "laying" for grammatical correctness); sitting; standing; walking; walkingdownstairs; walkingupstairs|
 |3|meanOfTimeBodyAccMeanX|double|Numeric variable measuring the mean of all of the time-domain body accelerometer signal means in the X dimension of the phone|
 |4|meanOfTimeBodyAccMeanY|double|Numeric variable measuring the mean of all of the time-domain body accelerometer signal means in the Y dimension of the phone|
 |5|meanOfTimeBodyAccMeanZ|double|Numeric variable measuring the mean of all of the time-domain body accelerometer signal means in the Z dimension of the phone|
