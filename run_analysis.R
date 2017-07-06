@@ -1,28 +1,28 @@
-# Note: this script assumes that the working directory is GettingAndCleaningData/Week4/Project/Wearables
+
 # Load magrittr package so we can use chaining
 library(magrittr)
 
 # Read features.txt into a dataframe, using the space as the separator
-featureTable<-read.table("./UCI Har Dataset/features.txt", sep = " ")
+featureTable<-read.table("features.txt", sep = " ")
 
-activityLabelsTable<-read.table("./UCI Har Dataset/activity_labels.txt", sep = " ")
+activityLabelsTable<-read.table("activity_labels.txt", sep = " ")
 
 # Read the training and test files into tables
-subjectTrainTable<-read.table("./UCI Har Dataset/train/subject_train.txt", sep = " ")
-yTrainTable<-read.table("./UCI Har Dataset/train/y_train.txt", sep = " ")
-subjectTestTable<-read.table("./UCI Har Dataset/test/subject_test.txt", sep = " ")
-yTestTable<-read.table("./UCI Har Dataset/test/y_test.txt", sep = " ")
+subjectTrainTable<-read.table("train/subject_train.txt", sep = " ")
+yTrainTable<-read.table("train/y_train.txt", sep = " ")
+subjectTestTable<-read.table("test/subject_test.txt", sep = " ")
+yTestTable<-read.table("test/y_test.txt", sep = " ")
 
 # xTrainTable is harder because X_train.txt has both single spaces and double spaces as separators, so we need to 
 # read it into a temp variable first, replace the double spaces with single spaces, write the data into a temp output file,
 # and then read the temp file into the data frame
-temp<-readLines("./UCI Har Dataset/train/X_train.txt")
+temp<-readLines("train/X_train.txt")
 temp<-gsub("  ", " ", temp)
 myFile<-tempfile()
 writeLines(temp, con=myFile)
 xTrainTable<-read.table(myFile, sep=" ")
 
-temp<-readLines("./UCI Har Dataset/test/X_test.txt")
+temp<-readLines("test/X_test.txt")
 temp<-gsub("  ", " ", temp)
 myFile<-tempfile()
 writeLines(temp, con=myFile)
