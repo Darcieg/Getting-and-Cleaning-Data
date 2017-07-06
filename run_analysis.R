@@ -93,7 +93,7 @@ colnames(summarizedData)<-gsub("AngletBody", "AngleTimeBody", colnames(summarize
 colnames(summarizedData)[3:88]<-paste0("meanOf", colnames(summarizedData)[3:88])
 
 # Write the tidy data table to a text file
-write.table(summarizedData, "tidydata.txt")
+write.table(summarizedData, "tidydata.txt", row.names=FALSE)
 
 
 
