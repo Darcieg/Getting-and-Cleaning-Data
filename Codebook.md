@@ -1,3 +1,46 @@
+The data was transformed as follows, with the script run_analysis.R:
+
+All of the data files under UCI Har Dataset were read into tables, excluding the files in the Inertial Signals directories, as it was determined that the data in those files were not necessary to include in the final tidy data set. The following files were read into tables using the space delimiter
+1. features.txt
+2. activity_labels.txt
+3. train\subject_train.txt
+4. test\subject_test.txt
+5. train\y_train.txt
+6. test\y_test.txt
+
+train\x_train.txt and test\x_test.txt contained both single and double spaces as delimiters, so the double spaces were first replaced with single spaces, and then the files were read into tables using the space delimiter.
+
+Per the instructions, the test and train tables were merged. Since each test-train pair contained the same type of data in the same order, with the same column headers and the same numbers of rows and columns, r-bind was used to merge the following test-train pairs:
+1. yTrainTable, yTestTable
+2. subjectTrainTable, subjectTestTable
+3. xTrainTable, xTestTable
+
+Since the first column of the merged xTable contained only NA values, it was removed.
+
+Next, the columns of the merged xTable were renamed with the elements of the second column of the feature table.
+
+The data contained in the subject tables were numerical IDs of each of the 30 participants, so the column header of the single-column  subjectTablesMerged was renamed to "subjectId."
+Similarly, the data contained in the y tables were numerical IDs of each of the 6 activities, so the column header of the single-column  yTablesMerged was renamed to "activityId."
+
+The columns of the subjectTablesMerged and yTablesMerged were then added to the merged xTable as the leftmost two columns. 
+
+The numerical activity IDs in the newly merged table were renamed according to the data in the activityLabels table to:
+1. walking
+2. walkingupstairs
+3. walkingdownstairs
+4. sitting
+5. standing
+6. lying down (switched from the original "laying" for grammatical correctness)
+
+Next, the table was pared down to contain--in addition to the subject ID and activity ID--only columns that contained the strings "mean" or "stddev." This was my interpretation of the instruction to extract only the measurements on the mean and standard deviation for each measurement.
+
+Then, the summarise_if function was used to take the mean of all of the values for each measurement, grouped by subjectId and then activityId, rendering the data in tidy, wide format: each variable in columns 3:88 is an independent measure of an activity/subject action. (See https://thoughtfulbloke.wordpress.com/2015/09/09/getting-and-cleaning-the-assignment/ for discussion on wide vs narrow tidy data.)
+
+Next, the variable columns were renamed to be more descriptive. The tables below define some of the terms used and lay out the column names and their descriptions.
+
+
+
+## Terms Used
 
 | |Token|Description|
 |--- |--- |--- |
@@ -9,6 +52,8 @@
 |6|Gyro|Measurement taken from the gyroscope on the phone.|
 |7|Jerk|Measurement of sudden movement, based on body acceleration and angular velocity.|
 
+
+## Tidy Data Set column positions, names, and descriptions
 |columnPosition|columnName|type|description|
 |--- |--- |--- |--- |
 |1|subjectId|integer|Numeric identifier (a unique sequential number) that indicates the participant or subject of the experiment. The original research study included 30 participants, so this variable has a range of numeric values from 1-30. No further information beyond an ID number was provided by the original research team.|
@@ -99,3 +144,8 @@
 |86|meanOfFreqBodyBodyAccJerkMagStd|double|Numeric variable measuring the mean of all of the the magnitude (calculated using the Euclidean norm) of frequency-domain body jerk accelerometer signal standard deviations|
 |87|meanOfFreqBodyBodyGyroMagStd|double|Numeric variable measuring the mean of all of the the magnitude (calculated using the Euclidean norm) of frequency-domain body  gyroscope signal standard deviations|
 |88|meanOfFreqBodyBodyGyroJerkMagStd|double|Numeric variable measuring the mean of all of the the magnitude (calculated using the Euclidean norm) of frequency-domain body jerk gyroscope signal standard deviations|
+
+
+## Reference to ReadMe included in the original data set
+Since the original ReadMe is not required to be submitted, its contents are pasted below to provide more background on the testing methods:
+
