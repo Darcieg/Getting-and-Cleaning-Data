@@ -6,7 +6,10 @@
 
 ## Instructions for how to read the data file
 
-The tidy data file is called "tidydata.txt" and is saved in space-delimited format. The data can be read into R with `read.table(<full path to tidydata.txt>, header=TRUE)` and viewed in R with `View(<table>)`, 
+The tidy data file is called "tidydata.txt" and is saved in space-delimited format. The data can be read into R with 
+`read.table(<full path to tidydata.txt>, header=TRUE)` 
+and viewed in R with 
+`View(<table>)`, 
 e.g.,
 `tidyTable<-read.table("downloads\tidydata.txt", header=TRUE)`
 `View(tidyTable)`
