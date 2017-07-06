@@ -1,8 +1,7 @@
 ## Repo Contents
 1. Readme.md
 2. run_analysis.R (script used to transform the data)
-3. tidydata.txt (tidy data text file to be read into R)
-4. Codebook.md
+3. Codebook.md
 
 ## Instructions for how to read the data file
 
