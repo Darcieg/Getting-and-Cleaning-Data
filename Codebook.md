@@ -1,6 +1,8 @@
 The data was transformed as follows, with the script run_analysis.R:
 
-All of the data files under UCI Har Dataset were read into tables, excluding the files in the Inertial Signals directories, as it was determined that the data in those files were not necessary to include in the final tidy data set. The following files were read into tables using the space delimiter
+All of the data files under UCI Har Dataset were read into tables, excluding the files in the Inertial Signals directories, as it was determined that the data in those files were not necessary to include in the final tidy data set. Units were not included for the test and train files, aside from the files in the Inertial Signals directories, which, as mentioned, were not used, so units are not included for the 86 measurements in the table.
+
+The following files were read into tables using the space delimiter
 1. features.txt
 2. activity_labels.txt
 3. train\subject_train.txt
