@@ -1,25 +1,13 @@
-# Note: Need to be in correct directory
-# setwd("C:/Users/darcieg/Documents/Coursera/GettingAndCleaningData/Week4/Project/wearables")
-# setwd("C:/Users/darcieg/OneDrive/Documents/GettingAndCleaningData/Week4/Project/Wearables")
-# Note: Need to make sure "magrittr" is installed.
-
+# Note: this script assumes that the working directory is GettingAndCleaningData/Week4/Project/Wearables
 # Load magrittr package so we can use chaining
 library(magrittr)
 
 # Read features.txt into a dataframe, using the space as the separator
 featureTable<-read.table("./UCI Har Dataset/features.txt", sep = " ")
 
-# Rename the columns in featureTable to more meaningful names: "measurementindex" and "measurement"
-# colnames(featureTable)<-c("measurementindex", "measurement")
-
 activityLabelsTable<-read.table("./UCI Har Dataset/activity_labels.txt", sep = " ")
 
-
-# Rename the columns in activityLabelsTable to more meaningful names: "activityindex" and "activity"
-# colnames(activityLabelsTable)<-c("activityindex", "activity")
-
 # Read the training and test files into tables
-
 subjectTrainTable<-read.table("./UCI Har Dataset/train/subject_train.txt", sep = " ")
 yTrainTable<-read.table("./UCI Har Dataset/train/y_train.txt", sep = " ")
 subjectTestTable<-read.table("./UCI Har Dataset/test/subject_test.txt", sep = " ")
@@ -53,9 +41,6 @@ xTablesMerged$V1<-NULL
 colHeaders<-featureTable$V2
 colnames(xTablesMerged) <- colHeaders
 
-# So, the y table is activity label table
-# We need to get all of the activity numbers and replace them with the activity labels. 
-# So, the y files should look like "walking, walking, running," etc
 # Change column header of subject and merged yTable to something meaningful
 colnames(subjectTablesMerged)<-"subjectId"
 colnames(yTablesMerged)<-"activityId"
@@ -63,15 +48,17 @@ colnames(yTablesMerged)<-"activityId"
 # Add the columns for subjectTablesMerged and yTablesMerged (each is just one column) to xTableMerged and write to a new table.
 completeObs<-subjectTablesMerged %>% cbind(yTablesMerged) %>% cbind(xTablesMerged)
 
+
+# Get all of the activity numbers and replace them with the activity labels. 
 completeObs$activityId <- replace(as.character(completeObs$activityId), completeObs$activityId == "1", "walking")
 completeObs$activityId <- replace(as.character(completeObs$activityId), completeObs$activityId == "2", "walkingupstairs")
 completeObs$activityId <- replace(as.character(completeObs$activityId), completeObs$activityId == "3", "walkingdownstairs")
 completeObs$activityId <- replace(as.character(completeObs$activityId), completeObs$activityId == "4", "sitting")
 completeObs$activityId <- replace(as.character(completeObs$activityId), completeObs$activityId == "5", "standing")
-completeObs$activityId <- replace(as.character(completeObs$activityId), completeObs$activityId == "6", "lying down")
+completeObs$activityId <- replace(as.character(completeObs$activityId), completeObs$activityId == "6", "lyingdown")
 
 
-# Now we need to extract only the columns that contain mean or stdev information
+# Extract only the columns that contain mean or stdev information
 # Some of the column names are presently invalid, causing "select" to report duplicate
 # column names. 
 # Make sure dplyr is loaded
@@ -81,7 +68,7 @@ names(completeObs)<-valid_column_names
 selectedData<-select(completeObs, subjectId, activityId, contains("mean"), contains("std"))
 
 
-# summarise_if
+# Apply the mean function to all numeric variables in each column, grouped by subjectId and activityId
 summarizedData<-selectedData %>% group_by_("subjectId", "activityId") %>%
   summarise_if(.predicate = function(x) is.numeric(x),
                .funs = funs("mean"))
@@ -104,6 +91,10 @@ colnames(summarizedData)<-gsub("angle", "Angle", colnames(summarizedData))
 colnames(summarizedData)<-gsub("AngletBody", "AngleTimeBody", colnames(summarizedData))
 # Prepend "meanOf" to all column headers except subjectId and activityId
 colnames(summarizedData)[3:88]<-paste0("meanOf", colnames(summarizedData)[3:88])
+
+# Write the tidy data table to a text file
+write.table(summarizedData, "tidydata.txt")
+
 
 
 
